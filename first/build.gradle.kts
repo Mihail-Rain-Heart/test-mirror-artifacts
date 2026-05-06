@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-group = "ru.testmirrorartifacts"
+group = "io.github.mihail-rain-heart"
 version = "2026.05.00"
 
 publishing {

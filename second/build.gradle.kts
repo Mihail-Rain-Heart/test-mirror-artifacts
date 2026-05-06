@@ -22,7 +22,7 @@ dependencies {
     implementation(project(":first"))
 }
 
-group = "ru.testmirrorartifacts"
+group = "io.github.mihail-rain-heart"
 version = "2026.05.00"
 
 afterEvaluate {

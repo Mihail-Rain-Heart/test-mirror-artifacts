@@ -1,7 +1,6 @@
 [versions]
 agp = "9.2.0"
 benchmarkJunit4 = "1.4.1"
-core = "2026.05.00"
 coreKtx = "1.18.0"
 
 junit = "4.13.2"
@@ -26,7 +25,6 @@ mat3 = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-core = { module = "ru.testmirrorartifacts:core", version.ref = "core" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -50,7 +48,6 @@ coil-kt-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", ve
 coil-kt-svg = { group = "io.coil-kt.coil3", name = "coil-svg", version.ref = "coil" }
 
 androidx-benchmark-junit4 = { module = "androidx.benchmark:benchmark-junit4", version.ref = "benchmarkJunit4" }
-util = { module = "ru.testmirrorartifacts:util", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

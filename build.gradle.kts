@@ -17,16 +17,7 @@ subprojects {
                 mavenLocal()
 
                 if (isCI) {
-                    maven {
-                        name = "TestGitHubPackages"
-                        url =
-                            uri("https://maven.pkg.github.com/Mihail-Rain-Heart/test-mirror-artifacts")
 
-                        credentials {
-                            username = System.getenv("GITHUB_USERNAME")
-                            password = System.getenv("GITHUB_TOKEN")
-                        }
-                    }
                 }
             }
         }
