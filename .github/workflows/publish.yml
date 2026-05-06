@@ -16,6 +16,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Grant execute permission
+        run: chmod +x ./gradlew
+
       - run: ./gradlew build
 
       - run: ./gradlew publish
