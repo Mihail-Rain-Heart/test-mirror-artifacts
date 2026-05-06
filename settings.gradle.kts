@@ -24,3 +24,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "test-mirror-artifacts"
 include(":app")
+include(":first")
+include(":second")
