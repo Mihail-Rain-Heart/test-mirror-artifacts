@@ -21,6 +21,7 @@ mavenPublishing {
 
     pom {
         name.set("util")
+        description.set("Util ...")
     }
 }
 

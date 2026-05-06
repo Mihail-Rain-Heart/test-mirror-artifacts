@@ -12,5 +12,6 @@ mavenPublishing {
 
     pom {
         name.set("core")
+        description.set("Core ...")
     }
 }
