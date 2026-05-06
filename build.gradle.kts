@@ -22,20 +22,7 @@ subprojects {
 
             publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-            plugins.withId("signing") {
-
-                extensions.configure<SigningExtension> {
-
-                    if (isCI) {
-                        useInMemoryPgpKeys(
-                            System.getenv("GPG_KEY"),
-                            System.getenv("GPG_PASSWORD")
-                        )
-
-                        sign(extensions.getByType(PublishingExtension::class.java).publications)
-                    }
-                }
-            }
+            signAllPublications()
 
             pom {
                 url.set("https://github.com/Mihail-Rain-Heart/test-mirror-artifacts")
