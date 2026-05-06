@@ -30,10 +30,14 @@ jobs:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
 
+      - name: Inspect bundle
+        run: |
+            ls -R build/central-staging
+
       - name: Zip bundle
         run: |
           cd build
-          zip -r bundle.zip repo
+          zip -r bundle.zip central-staging
 
       - name: Upload to Maven Central
         run: |

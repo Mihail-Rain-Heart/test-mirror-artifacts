@@ -42,8 +42,8 @@ subprojects {
 
                 repositories {
                     maven {
-                        name = "localStaging"
-                        url = rootProject.layout.buildDirectory.dir("repo").get().asFile.toURI()
+                        name = "centralStaging"
+                        url = rootProject.layout.buildDirectory.dir("central-staging").get().asFile.toURI()
                     }
                 }
             }
