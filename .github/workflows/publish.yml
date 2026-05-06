@@ -19,16 +19,28 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Grant execute permission
-        run: chmod +x ./gradlew
+      - run: chmod +x ./gradlew
 
       - run: ./gradlew build
 
-      - name: Publish to Maven Central
-        run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
+      - name: Build & Stage
+        run: ./gradlew clean publish
         env:
-            CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
-            CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
-            GPG_KEY: ${{ secrets.GPG_KEY }}
-            GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-            CI: true
+          CI: true
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+
+      - name: Zip bundle
+        run: |
+          cd build/repo
+          zip -r ../bundle.zip .
+
+      - name: Upload to Maven Central
+        run: |
+          curl -f -X POST "https://central.sonatype.com/api/v1/publisher/upload" \
+            -u "${CENTRAL_USER}:${CENTRAL_TOKEN}" \
+            -H "Content-Type: application/zip" \
+            --data-binary "@build/bundle.zip"
+        env:
+          CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}

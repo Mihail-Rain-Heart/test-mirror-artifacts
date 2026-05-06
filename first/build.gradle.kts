@@ -17,7 +17,6 @@ publishing {
             pom {
                 name.set("core")
                 description.set("Core module")
-                url.set("https://github.com/Mihail-Rain-Heart/test-mirror-artifacts")
             }
         }
     }
