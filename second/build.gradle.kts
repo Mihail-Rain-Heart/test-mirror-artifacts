@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.maven.publish)
 }
 
 android {
@@ -10,9 +11,28 @@ android {
     defaultConfig {
         minSdk = 21
     }
+
+    publishing {
+        singleVariant("release")
+    }
 }
 
 dependencies {
 
-    implementation(project(":first"))
+    implementation(libs.core)
+}
+
+group = "ru.testmirrorartifacts"
+version = "2026.05.00"
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                artifactId = "util"
+
+                from(components["release"])
+            }
+        }
+    }
 }
