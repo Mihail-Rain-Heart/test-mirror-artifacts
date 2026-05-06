@@ -44,7 +44,7 @@ jobs:
         run: |
           RESPONSE=$(curl -s -X POST \
             "https://central.sonatype.com/api/v1/publisher/deployments" \
-            -u "${CENTRAL_USER}:${CENTRAL_TOKEN}" \
+            -H "Authorization: Bearer $CENTRAL_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"name":"release"}')
 
@@ -60,7 +60,7 @@ jobs:
         run: |
           curl -f -X POST \
             "https://central.sonatype.com/api/v1/publisher/deployments/${{ steps.create.outputs.deploymentId }}/upload" \
-            -u "${CENTRAL_USER}:${CENTRAL_TOKEN}" \
+            -H "Authorization: Bearer $CENTRAL_TOKEN" \
             -F "bundle=@build/bundle.zip"
         env:
           CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
@@ -70,7 +70,7 @@ jobs:
         run: |
           curl -f -X POST \
             "https://central.sonatype.com/api/v1/publisher/deployments/${{ steps.create.outputs.deploymentId }}/finish" \
-            -u "${CENTRAL_USER}:${CENTRAL_TOKEN}"
+            -H "Authorization: Bearer $CENTRAL_TOKEN""
         env:
           CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
           CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
