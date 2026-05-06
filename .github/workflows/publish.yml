@@ -36,15 +36,41 @@ jobs:
 
       - name: Zip bundle
         run: |
-          cd build
-          zip -r bundle.zip central-staging
+          cd build/central-staging
+          zip -r ../bundle.zip .
 
-      - name: Upload to Maven Central
+      - name: Create deployment
+        id: create
         run: |
-          curl -f -X POST "https://central.sonatype.com/api/v1/publisher/upload" \
+          RESPONSE=$(curl -s -X POST \
+            "https://central.sonatype.com/api/v1/publisher/deployments" \
             -u "${CENTRAL_USER}:${CENTRAL_TOKEN}" \
-            -H "Content-Type: application/zip" \
-            --data-binary "@build/bundle.zip"
+            -H "Content-Type: application/json" \
+            -d '{"name":"release"}')
+
+          echo "$RESPONSE"
+
+          DEPLOYMENT_ID=$(echo "$RESPONSE" | jq -r '.deploymentId')
+          echo "deploymentId=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
+        env:
+          CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+
+      - name: Upload bundle
+        run: |
+          curl -f -X POST \
+            "https://central.sonatype.com/api/v1/publisher/deployments/${{ steps.create.outputs.deploymentId }}/upload" \
+            -u "${CENTRAL_USER}:${CENTRAL_TOKEN}" \
+            -F "bundle=@build/bundle.zip"
+        env:
+          CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+
+      - name: Finish deployment
+        run: |
+          curl -f -X POST \
+            "https://central.sonatype.com/api/v1/publisher/deployments/${{ steps.create.outputs.deploymentId }}/finish" \
+            -u "${CENTRAL_USER}:${CENTRAL_TOKEN}"
         env:
           CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
           CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
