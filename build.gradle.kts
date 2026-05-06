@@ -1,8 +1,12 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.plugins.signing.SigningExtension
+
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.nexus)
 }
 
 val isCI = System.getenv("CI") == "true"
@@ -13,19 +17,8 @@ subprojects {
 
         extensions.configure<PublishingExtension> {
 
-            repositories {
-                maven {
-                    name = "mavenCentral"
-                    url = uri("https://central.sonatype.com/api/v1/publisher")
-
-                    credentials {
-                        username = System.getenv("CENTRAL_USER")
-                        password = System.getenv("CENTRAL_TOKEN")
-                    }
-                }
-            }
-
             publications.withType(MavenPublication::class.java).configureEach {
+
                 pom {
                     url.set("https://github.com/Mihail-Rain-Heart/test-mirror-artifacts")
 
@@ -58,11 +51,23 @@ subprojects {
             if (isCI) {
                 useInMemoryPgpKeys(
                     System.getenv("GPG_KEY"),
-                    System.getenv("GPG_PASSWORD")
+                    System.getenv("GPG_PASSWORD") ?: ""
                 )
 
                 sign(extensions.getByType(PublishingExtension::class.java).publications)
             }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+
+            username.set(System.getenv("CENTRAL_USER"))
+            password.set(System.getenv("CENTRAL_TOKEN"))
         }
     }
 }

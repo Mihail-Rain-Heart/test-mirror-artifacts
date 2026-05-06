@@ -6,7 +6,6 @@ plugins {
 
 android {
     namespace = "ru.testmirrorartifacts.second"
-
     compileSdk = 36
 
     defaultConfig {
@@ -16,11 +15,6 @@ android {
     publishing {
         singleVariant("release")
     }
-}
-
-dependencies {
-
-    implementation(project(":first"))
 }
 
 group = "io.github.mihail-rain-heart"
@@ -41,4 +35,8 @@ publishing {
             }
         }
     }
+}
+
+dependencies {
+    implementation(project(":first"))
 }
