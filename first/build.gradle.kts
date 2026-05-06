@@ -6,14 +6,12 @@ plugins {
 group = "ru.testmirrorartifacts"
 version = "2026.05.00"
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                artifactId = "core"
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            artifactId = "core"
 
-                from(components["java"])
-            }
+            from(components["java"])
         }
     }
 }
