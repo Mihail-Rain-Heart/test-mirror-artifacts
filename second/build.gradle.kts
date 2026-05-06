@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.maven.publish)
+    id("com.vanniktech.maven.publish")
     signing
 }
 
@@ -11,29 +11,16 @@ android {
     defaultConfig {
         minSdk = 21
     }
-
-    publishing {
-        singleVariant("release")
-    }
 }
 
 group = "io.github.mihail-rain-heart"
 version = "2026.05.00"
 
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            artifactId = "util"
+mavenPublishing {
+    coordinates("io.github.mihail-rain-heart", "util", version.toString())
 
-            afterEvaluate {
-                from(components["release"])
-            }
-
-            pom {
-                name.set("util")
-                description.set("Util module")
-            }
-        }
+    pom {
+        name.set("util")
     }
 }
 

@@ -23,54 +23,13 @@ jobs:
 
       - run: ./gradlew build
 
-      - name: Build & Stage
-        run: ./gradlew clean publish
+      - name: Publish to Maven Central
+        run: ./gradlew publishToMavenCentral
         env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.CENTRAL_USER }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.CENTRAL_TOKEN }}
+
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSWORD }}
+
           CI: true
-          GPG_KEY: ${{ secrets.GPG_KEY }}
-          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-
-      - name: Inspect bundle
-        run: |
-            ls -R build/central-staging
-
-      - name: Zip bundle
-        run: |
-          cd build/central-staging
-          zip -r ../bundle.zip .
-
-      - name: Create deployment
-        id: create
-        run: |
-          RESPONSE=$(curl -s -X POST \
-            "https://central.sonatype.com/api/v1/publisher/deployments" \
-            -H "Authorization: Bearer $CENTRAL_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"name":"release"}')
-
-          echo "$RESPONSE"
-
-          DEPLOYMENT_ID=$(echo "$RESPONSE" | jq -r '.deploymentId')
-          echo "deploymentId=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
-        env:
-          CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
-          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
-
-      - name: Upload bundle
-        run: |
-          curl -f -X POST \
-            "https://central.sonatype.com/api/v1/publisher/deployments/${{ steps.create.outputs.deploymentId }}/upload" \
-            -H "Authorization: Bearer $CENTRAL_TOKEN" \
-            -F "bundle=@build/bundle.zip"
-        env:
-          CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
-          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
-
-      - name: Finish deployment
-        run: |
-          curl -f -X POST \
-            "https://central.sonatype.com/api/v1/publisher/deployments/${{ steps.create.outputs.deploymentId }}/finish" \
-            -H "Authorization: Bearer $CENTRAL_TOKEN""
-        env:
-          CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
-          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}

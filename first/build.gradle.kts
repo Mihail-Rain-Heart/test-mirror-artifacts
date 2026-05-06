@@ -1,23 +1,16 @@
 plugins {
     alias(libs.plugins.jvm.library)
-    alias(libs.plugins.maven.publish)
+    id("com.vanniktech.maven.publish")
     signing
 }
 
 group = "io.github.mihail-rain-heart"
 version = "2026.05.00"
 
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            artifactId = "core"
+mavenPublishing {
+    coordinates("io.github.mihail-rain-heart", "core", version.toString())
 
-            from(components["java"])
-
-            pom {
-                name.set("core")
-                description.set("Core module")
-            }
-        }
+    pom {
+        name.set("core")
     }
 }
