@@ -42,6 +42,7 @@ import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.transformations
 import coil3.size.Size
+import ru.testmirrorartifacts.second.SecondClass
 
 class MainActivity : ComponentActivity() {
 
@@ -56,6 +57,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
+            SecondClass().print()
         }
     }
 }

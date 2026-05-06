@@ -53,6 +53,7 @@ androidx-benchmark-junit4 = { module = "androidx.benchmark:benchmark-junit4", ve
 android-application = { id = "com.android.application", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+jvm-library = { id = "org.jetbrains.kotlin.jvm" }
 
 [bundles]
 coil = [
