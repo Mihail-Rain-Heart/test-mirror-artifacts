@@ -19,7 +19,7 @@ android {
 
 dependencies {
 
-    implementation(libs.core)
+    implementation(project(":first"))
 }
 
 group = "ru.testmirrorartifacts"
