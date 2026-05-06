@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name" translatable="false">test-mirr</string>
+
+    <string name="select_image">Select image</string>
+</resources>
