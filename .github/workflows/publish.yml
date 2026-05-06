@@ -32,8 +32,8 @@ jobs:
 
       - name: Zip bundle
         run: |
-          cd build/repo
-          zip -r ../bundle.zip .
+          cd build
+          zip -r bundle.zip repo
 
       - name: Upload to Maven Central
         run: |

@@ -40,11 +40,10 @@ subprojects {
                     }
                 }
 
-                // локальный staging-репозиторий (bundle)
                 repositories {
                     maven {
                         name = "localStaging"
-                        url = uri(layout.buildDirectory.dir("repo"))
+                        url = rootProject.layout.buildDirectory.dir("repo").get().asFile.toURI()
                     }
                 }
             }
