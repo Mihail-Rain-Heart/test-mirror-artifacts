@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   publish:
@@ -25,8 +24,11 @@ jobs:
 
       - run: ./gradlew build
 
-      - run: ./gradlew publish
+      - name: Publish to Maven Central
+        run: ./gradlew publish
         env:
-          CI: true
-          GITHUB_USERNAME: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            CENTRAL_USER: ${{ secrets.CENTRAL_USER }}
+            CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+            GPG_KEY: ${{ secrets.GPG_KEY }}
+            GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+

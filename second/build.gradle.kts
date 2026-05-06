@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.maven.publish)
+    signing
 }
 
 android {
@@ -25,13 +26,18 @@ dependencies {
 group = "io.github.mihail-rain-heart"
 version = "2026.05.00"
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                artifactId = "util"
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            artifactId = "util"
 
+            afterEvaluate {
                 from(components["release"])
+            }
+
+            pom {
+                name.set("util")
+                description.set("Util module")
             }
         }
     }
