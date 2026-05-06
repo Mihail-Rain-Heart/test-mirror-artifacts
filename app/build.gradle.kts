@@ -37,7 +37,7 @@ android {
 
 dependencies {
 
-    implementation(libs.util)
+    implementation(project(":second"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
