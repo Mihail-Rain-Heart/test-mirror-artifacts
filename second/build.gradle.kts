@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.vanniktech)
     signing
 }
 
@@ -14,7 +14,7 @@ android {
 }
 
 group = "io.github.mihail-rain-heart"
-version = "2026.05.00"
+version = "2026.05.01"
 
 mavenPublishing {
     coordinates("io.github.mihail-rain-heart", "util", version.toString())

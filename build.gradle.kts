@@ -8,8 +8,7 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose.compiler) apply false
-    id("com.vanniktech.maven.publish") version "0.31.0" apply false
-    id("org.jetbrains.dokka") version "1.9.20" apply false
+    alias(libs.plugins.vanniktech) apply false
 }
 
 val isCI = System.getenv("CI") == "true"

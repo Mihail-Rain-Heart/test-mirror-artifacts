@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.jvm.library)
-    id("com.vanniktech.maven.publish")
+    alias(libs.plugins.vanniktech)
     signing
 }
 
