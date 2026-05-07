@@ -1,0 +1,33 @@
+name: Mirror GitHub -> Codeberg
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "**"
+  delete:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeberg-mirror
+  cancel-in-progress: true
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push full mirror to Codeberg
+        env:
+          CB_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
+        run: |
+          git remote add codeberg https://$CB_TOKEN@codeberg.org/Rimuru_Tempest/test-artifacts-mirror.git
+
+          git push --mirror codeberg
